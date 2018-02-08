@@ -160,9 +160,8 @@ class ViewController: UIViewController {
         hv = histogramView
         updateCalcButton(CALC_BUTTON_READY)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.screenRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         screenRotated()
-        
+       
         paceTimer = Timer.scheduledTimer(timeInterval:0.01, target:self, selector: #selector(paceTimerHandler), userInfo: nil, repeats:true)
     }
     
@@ -200,6 +199,13 @@ class ViewController: UIViewController {
         
         controlLoaded()
         bulb.newBusy(.calc)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.screenRotated()
+        }
     }
     
     //MARK: -
